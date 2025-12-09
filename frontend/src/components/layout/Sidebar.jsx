@@ -7,15 +7,18 @@ const menuItems = [
   { path: '/admin/usuarios', label: 'Usuarios', roles: [ROLES.ADMINISTRADOR] },
   { path: '/admin/cursos', label: 'Cursos', roles: [ROLES.ADMINISTRADOR] },
   { path: '/admin/inscripciones', label: 'Inscripciones', roles: [ROLES.ADMINISTRADOR] },
+  { path: '/admin/roles', label: 'Roles', roles: [ROLES.ADMINISTRADOR] },
 
   { path: '/docente/dashboard', label: 'Dashboard', roles: [ROLES.DOCENTE] },
-  { path: '/docente/cursos', label: 'Mis Cursos', roles: [ROLES.DOCENTE] },
+  { path: '/docente/mis-cursos', label: 'Mis Cursos', roles: [ROLES.DOCENTE] },
   { path: '/docente/materiales', label: 'Materiales', roles: [ROLES.DOCENTE] },
-  { path: '/docente/evaluaciones', label: 'Evaluaciones', roles: [ROLES.DOCENTE] },
+  { path: '/docente/mensajes', label: 'Mensajes', roles: [ROLES.DOCENTE] },
+  { path: '/docente/evaluaciones', label: 'Evaluaciones y Notas', roles: [ROLES.DOCENTE] },
 
   { path: '/estudiante/dashboard', label: 'Dashboard', roles: [ROLES.ESTUDIANTE] },
-  { path: '/estudiante/cursos', label: 'Mis Cursos', roles: [ROLES.ESTUDIANTE] },
-  { path: '/estudiante/notas', label: 'Mis Notas', roles: [ROLES.ESTUDIANTE] },
+  { path: '/estudiante/mis-cursos', label: 'Mis Cursos', roles: [ROLES.ESTUDIANTE] },
+  { path: '/estudiante/materiales', label: 'Materiales', roles: [ROLES.ESTUDIANTE] },
+  { path: '/estudiante/mis-notas', label: 'Mis Notas', roles: [ROLES.ESTUDIANTE] },
 ];
 
 export const Sidebar = () => {

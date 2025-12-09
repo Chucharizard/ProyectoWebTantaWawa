@@ -1,4 +1,4 @@
-// API Endpoints
+// API Endpoints - COMPLETO
 export const ENDPOINTS = {
   // Auth
   AUTH: {
@@ -21,6 +21,12 @@ export const ENDPOINTS = {
     ELIMINAR: '/usuario/eliminarUsuarioLogico',
   },
 
+  // Rol
+  ROL: {
+    OBTENER_TODOS: '/rol/obtenerRoles',
+    OBTENER_POR_ID: (id) => `/rol/obtenerRolPorId/${id}`,
+  },
+
   // Curso
   CURSO: {
     OBTENER_TODOS: '/curso/obtenerCursos',
@@ -32,6 +38,17 @@ export const ENDPOINTS = {
     ELIMINAR: '/curso/eliminarCursoLogico',
   },
 
+  // Inscripcion
+  INSCRIPCION: {
+    OBTENER_TODOS: '/inscripcion/obtenerInscripciones',
+    OBTENER_POR_ID: (id) => `/inscripcion/obtenerInscripcionPorId/${id}`,
+    POR_ESTUDIANTE: (estudianteId) => `/inscripcion/buscarCursosPorEstudiante/${estudianteId}`,
+    POR_CURSO: (cursoId) => `/inscripcion/buscarEstudiantesPorCurso/${cursoId}`,
+    CREAR: '/inscripcion/crearInscripcion',
+    ACTUALIZAR: '/inscripcion/actualizarInscripcion',
+    ELIMINAR: '/inscripcion/eliminarInscripcion',
+  },
+
   // Material
   MATERIAL: {
     OBTENER_TODOS: '/Material/obtenerMateriales',
@@ -41,6 +58,17 @@ export const ENDPOINTS = {
     CREAR: '/Material/crearMaterial',
     ACTUALIZAR: '/Material/actualizarMaterial',
     ELIMINAR: (id) => `/Material/eliminarMaterial/${id}`,
+  },
+
+  // Mensaje
+  MENSAJE: {
+    OBTENER_TODOS: '/Mensaje/obtenerMensajes',
+    POR_CURSO: (cursoId) => `/Mensaje/obtenerMensajesPorCurso/${cursoId}`,
+    POR_USUARIO: (usuarioId) => `/Mensaje/obtenerMensajesPorUsuario/${usuarioId}`,
+    OBTENER_POR_ID: (id) => `/Mensaje/obtenerMensajePorId/${id}`,
+    CREAR: '/Mensaje/crearMensaje',
+    ACTUALIZAR: '/Mensaje/actualizarMensaje',
+    ELIMINAR: (id) => `/Mensaje/eliminarMensaje/${id}`,
   },
 
   // Evaluacion
