@@ -31,6 +31,18 @@ builder.Services.AddScoped<JwtService>();
 // Agregar HttpContextAccessor para acceder al contexto HTTP en los servicios
 builder.Services.AddHttpContextAccessor();
 
+// CONFIGURACION DE CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "http://localhost:5174")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 builder.Services.AddControllers()
     .AddJsonOptions(x =>
         x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
@@ -99,7 +111,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Ingresa el token JWT aquí. Ejemplo: Bearer eyJhbGciOiJIUzI1NiIsInR5..."
+        Description = "Ingresa el token JWT aquï¿½. Ejemplo: Bearer eyJhbGciOiJIUzI1NiIsInR5..."
     });
 
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
@@ -134,6 +146,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Habilitar CORS
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
