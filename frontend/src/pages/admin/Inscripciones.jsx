@@ -20,23 +20,23 @@ const Inscripciones = () => {
     cursoId: '',
   });
 
-  const estudiantes = usuarios?.filter(u => u.rol?.nombre === 'Estudiante') || [];
+  const estudiantes = usuarios?.filter(u => u.nombreRol === 'Estudiante') || [];
 
   const columns = [
     {
-      key: 'estudiante',
+      key: 'nombresEstudiante',
       label: 'Estudiante',
-      render: (estudiante) => estudiante ? `${estudiante.nombre} ${estudiante.apellido}` : '-'
+      render: (nombres, inscripcion) => nombres ? `${nombres} ${inscripcion.apellidosEstudiante}` : '-'
     },
     {
-      key: 'curso',
+      key: 'nombreCurso',
       label: 'Curso',
-      render: (curso) => curso ? `${curso.codigo} - ${curso.nombre}` : '-'
+      render: (nombreCurso) => nombreCurso || '-'
     },
     {
       key: 'fechaInscripcion',
       label: 'Fecha de Inscripción',
-      render: (fecha) => new Date(fecha).toLocaleDateString()
+      render: (fecha) => fecha ? new Date(fecha).toLocaleDateString() : '-'
     },
   ];
 
@@ -59,7 +59,7 @@ const Inscripciones = () => {
       handleCloseModal();
     } catch (error) {
       console.error('Error al crear inscripción:', error);
-      alert(error.response?.data?.message || 'Error al crear inscripción');
+      alert(error.response?.data?.error || error.response?.data?.message || 'Error al crear inscripción');
     }
   };
 
@@ -69,7 +69,7 @@ const Inscripciones = () => {
         await eliminarInscripcion.mutateAsync(inscripcion.id);
       } catch (error) {
         console.error('Error al eliminar inscripción:', error);
-        alert(error.response?.data?.message || 'Error al eliminar inscripción');
+        alert(error.response?.data?.error || error.response?.data?.message || 'Error al eliminar inscripción');
       }
     }
   };
@@ -111,7 +111,7 @@ const Inscripciones = () => {
               <option value="">Seleccione un estudiante</option>
               {estudiantes.map((estudiante) => (
                 <option key={estudiante.id} value={estudiante.id}>
-                  {estudiante.nombre} {estudiante.apellido} ({estudiante.ci})
+                  {estudiante.nombres} {estudiante.apellidos} ({estudiante.carnetIdentidad})
                 </option>
               ))}
             </select>
@@ -129,7 +129,7 @@ const Inscripciones = () => {
               <option value="">Seleccione un curso</option>
               {cursos?.map((curso) => (
                 <option key={curso.id} value={curso.id}>
-                  {curso.codigo} - {curso.nombre}
+                  {curso.nombre}
                 </option>
               ))}
             </select>
@@ -138,7 +138,7 @@ const Inscripciones = () => {
             <Button type="button" variant="secondary" onClick={handleCloseModal}>
               Cancelar
             </Button>
-            <Button type="submit" loading={crearInscripcion.isPending}>
+            <Button type="submit" isLoading={crearInscripcion.isPending}>
               Crear
             </Button>
           </div>

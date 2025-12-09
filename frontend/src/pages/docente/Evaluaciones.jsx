@@ -238,7 +238,7 @@ const Evaluaciones = () => {
             <Button type="button" variant="secondary" onClick={handleCloseModal}>
               Cancelar
             </Button>
-            <Button type="submit" loading={crearEvaluacion.isPending}>
+            <Button type="submit" isLoading={crearEvaluacion.isPending}>
               Crear
             </Button>
           </div>
@@ -273,7 +273,7 @@ const Evaluaciones = () => {
             <Button type="button" variant="secondary" onClick={() => setIsNotasModalOpen(false)}>
               Cancelar
             </Button>
-            <Button type="submit" loading={crearResultado.isPending}>
+            <Button type="submit" isLoading={crearResultado.isPending}>
               Guardar Notas
             </Button>
           </div>

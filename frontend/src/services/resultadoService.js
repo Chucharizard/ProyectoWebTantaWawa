@@ -38,7 +38,7 @@ export const resultadoService = {
   },
 
   eliminar: async (id) => {
-    const response = await axiosInstance.delete(ENDPOINTS.RESULTADO.ELIMINAR, { data: { id } });
+    const response = await axiosInstance.delete(ENDPOINTS.RESULTADO.ELIMINAR(id));
     return response.data;
   },
 };

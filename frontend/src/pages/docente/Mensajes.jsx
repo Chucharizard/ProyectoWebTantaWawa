@@ -172,7 +172,7 @@ const Mensajes = () => {
             <Button type="button" variant="secondary" onClick={handleCloseModal}>
               Cancelar
             </Button>
-            <Button type="submit" loading={crearMensaje.isPending}>
+            <Button type="submit" isLoading={crearMensaje.isPending}>
               Enviar
             </Button>
           </div>

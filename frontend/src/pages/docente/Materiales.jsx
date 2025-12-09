@@ -191,7 +191,7 @@ const Materiales = () => {
             <Button type="button" variant="secondary" onClick={handleCloseModal}>
               Cancelar
             </Button>
-            <Button type="submit" loading={crearMaterial.isPending}>
+            <Button type="submit" isLoading={crearMaterial.isPending}>
               Crear
             </Button>
           </div>

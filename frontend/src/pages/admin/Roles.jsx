@@ -6,7 +6,7 @@ const Roles = () => {
   const { data: roles, isLoading } = useRoles();
 
   const columns = [
-    { key: 'nombre', label: 'Nombre del Rol' },
+    { key: 'nombreRol', label: 'Nombre del Rol' },
   ];
 
   return (

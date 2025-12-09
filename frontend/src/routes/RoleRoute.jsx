@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Loading } from '../components/common/Loading';
+import { DashboardLayout } from '../components/layout/DashboardLayout';
 
 export const RoleRoute = ({ allowedRoles }) => {
   const { user, loading, isAuthenticated } = useAuth();
@@ -19,5 +20,9 @@ export const RoleRoute = ({ allowedRoles }) => {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return (
+    <DashboardLayout>
+      <Outlet />
+    </DashboardLayout>
+  );
 };

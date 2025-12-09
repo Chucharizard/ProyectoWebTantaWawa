@@ -17,23 +17,23 @@ const Usuarios = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUsuario, setEditingUsuario] = useState(null);
   const [formData, setFormData] = useState({
-    ci: '',
-    nombre: '',
-    apellido: '',
+    carnetIdentidad: '',
+    nombres: '',
+    apellidos: '',
     email: '',
-    contrasena: '',
+    password: '',
     rolId: '',
   });
 
   const columns = [
-    { key: 'ci', label: 'CI' },
-    { key: 'nombre', label: 'Nombre' },
-    { key: 'apellido', label: 'Apellido' },
+    { key: 'carnetIdentidad', label: 'CI' },
+    { key: 'nombres', label: 'Nombre' },
+    { key: 'apellidos', label: 'Apellido' },
     { key: 'email', label: 'Email' },
     {
-      key: 'rol',
+      key: 'nombreRol',
       label: 'Rol',
-      render: (rol) => rol?.nombre || '-'
+      render: (nombreRol) => nombreRol || '-'
     },
   ];
 
@@ -41,21 +41,21 @@ const Usuarios = () => {
     if (usuario) {
       setEditingUsuario(usuario);
       setFormData({
-        ci: usuario.ci,
-        nombre: usuario.nombre,
-        apellido: usuario.apellido,
+        carnetIdentidad: usuario.carnetIdentidad,
+        nombres: usuario.nombres,
+        apellidos: usuario.apellidos,
         email: usuario.email,
-        contrasena: '',
+        password: '',
         rolId: usuario.rolId,
       });
     } else {
       setEditingUsuario(null);
       setFormData({
-        ci: '',
-        nombre: '',
-        apellido: '',
+        carnetIdentidad: '',
+        nombres: '',
+        apellidos: '',
         email: '',
-        contrasena: '',
+        password: '',
         rolId: '',
       });
     }
@@ -81,20 +81,23 @@ const Usuarios = () => {
       handleCloseModal();
     } catch (error) {
       console.error('Error al guardar usuario:', error);
-      alert(error.response?.data?.message || 'Error al guardar usuario');
+      alert(error.response?.data?.error || error.response?.data?.message || 'Error al guardar usuario');
     }
   };
 
   const handleDelete = async (usuario) => {
-    if (window.confirm(`¿Está seguro de eliminar al usuario ${usuario.nombre} ${usuario.apellido}?`)) {
+    if (window.confirm(`¿Está seguro de eliminar al usuario ${usuario.nombres} ${usuario.apellidos}?`)) {
       try {
         await eliminarUsuario.mutateAsync(usuario.id);
       } catch (error) {
         console.error('Error al eliminar usuario:', error);
-        alert(error.response?.data?.message || 'Error al eliminar usuario');
+        alert(error.response?.data?.error || error.response?.data?.message || 'Error al eliminar usuario');
       }
     }
   };
+
+  // Filtrar solo usuarios activos
+  const usuariosActivos = usuarios?.filter(u => u.esUsuarioActivo !== false) || [];
 
   return (
     <div>
@@ -108,7 +111,7 @@ const Usuarios = () => {
       <Card>
         <Table
           columns={columns}
-          data={usuarios || []}
+          data={usuariosActivos}
           loading={isLoading}
           onEdit={handleOpenModal}
           onDelete={handleDelete}
@@ -123,24 +126,24 @@ const Usuarios = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             label="CI"
-            type="text"
-            value={formData.ci}
-            onChange={(e) => setFormData({ ...formData, ci: e.target.value })}
+            type="number"
+            value={formData.carnetIdentidad}
+            onChange={(e) => setFormData({ ...formData, carnetIdentidad: e.target.value })}
             required
             disabled={!!editingUsuario}
           />
           <Input
-            label="Nombre"
+            label="Nombres"
             type="text"
-            value={formData.nombre}
-            onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+            value={formData.nombres}
+            onChange={(e) => setFormData({ ...formData, nombres: e.target.value })}
             required
           />
           <Input
-            label="Apellido"
+            label="Apellidos"
             type="text"
-            value={formData.apellido}
-            onChange={(e) => setFormData({ ...formData, apellido: e.target.value })}
+            value={formData.apellidos}
+            onChange={(e) => setFormData({ ...formData, apellidos: e.target.value })}
             required
           />
           <Input
@@ -153,8 +156,8 @@ const Usuarios = () => {
           <Input
             label={editingUsuario ? 'Nueva Contraseña (dejar vacío para mantener)' : 'Contraseña'}
             type="password"
-            value={formData.contrasena}
-            onChange={(e) => setFormData({ ...formData, contrasena: e.target.value })}
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             required={!editingUsuario}
           />
           <div>
@@ -170,7 +173,7 @@ const Usuarios = () => {
               <option value="">Seleccione un rol</option>
               {roles?.map((rol) => (
                 <option key={rol.id} value={rol.id}>
-                  {rol.nombre}
+                  {rol.nombreRol}
                 </option>
               ))}
             </select>
@@ -181,7 +184,7 @@ const Usuarios = () => {
             </Button>
             <Button
               type="submit"
-              loading={crearUsuario.isPending || actualizarUsuario.isPending}
+              isLoading={crearUsuario.isPending || actualizarUsuario.isPending}
             >
               {editingUsuario ? 'Actualizar' : 'Crear'}
             </Button>

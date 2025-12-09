@@ -10,6 +10,17 @@ export const useCursos = () => {
   });
 };
 
+export const useCursosPorDocente = (docenteId) => {
+  return useQuery({
+    queryKey: [QUERY_KEY, 'docente', docenteId],
+    queryFn: async () => {
+      const cursos = await cursoService.obtenerTodos();
+      return cursos.filter(curso => curso.docenteId === docenteId);
+    },
+    enabled: !!docenteId,
+  });
+};
+
 export const useCurso = (id) => {
   return useQuery({
     queryKey: [QUERY_KEY, id],

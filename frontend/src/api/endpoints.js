@@ -80,7 +80,7 @@ export const ENDPOINTS = {
     OBTENER_RESULTADOS: (evaluacionId) => `/Evaluacion/obtenerResultadosEvaluacion/${evaluacionId}`,
     CREAR: '/Evaluacion/crearEvaluacion',
     ACTUALIZAR: '/Evaluacion/actualizarEvaluacion',
-    ELIMINAR: '/Evaluacion/eliminarEvaluacion',
+    ELIMINAR: (id) => `/Evaluacion/eliminarEvaluacion/${id}`,
   },
 
   // Resultado Evaluacion
@@ -93,6 +93,6 @@ export const ENDPOINTS = {
     OBTENER_POR_ID: (id) => `/ResultadoEvaluacion/obtenerResultadoPorId/${id}`,
     CREAR: '/ResultadoEvaluacion/crearResultado',
     ACTUALIZAR: '/ResultadoEvaluacion/actualizarResultado',
-    ELIMINAR: '/ResultadoEvaluacion/eliminarResultado',
+    ELIMINAR: (id) => `/ResultadoEvaluacion/eliminarResultado/${id}`,
   },
 };

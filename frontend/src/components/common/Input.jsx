@@ -26,3 +26,5 @@ export const Input = forwardRef(({ label, error, className = '', ...props }, ref
 });
 
 Input.displayName = 'Input';
+
+export default Input;

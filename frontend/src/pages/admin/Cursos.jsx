@@ -19,20 +19,18 @@ const Cursos = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
-    codigo: '',
     docenteId: '',
   });
 
-  const docentes = usuarios?.filter(u => u.rol?.nombre === 'Docente') || [];
+  const docentes = usuarios?.filter(u => u.nombreRol === 'Docente') || [];
 
   const columns = [
-    { key: 'codigo', label: 'Código' },
     { key: 'nombre', label: 'Nombre' },
     { key: 'descripcion', label: 'Descripción' },
     {
-      key: 'docente',
+      key: 'nombres',
       label: 'Docente',
-      render: (docente) => docente ? `${docente.nombre} ${docente.apellido}` : '-'
+      render: (nombres, curso) => nombres ? `${nombres} ${curso.apellidos}` : '-'
     },
   ];
 
@@ -42,7 +40,6 @@ const Cursos = () => {
       setFormData({
         nombre: curso.nombre,
         descripcion: curso.descripcion,
-        codigo: curso.codigo,
         docenteId: curso.docenteId,
       });
     } else {
@@ -50,7 +47,6 @@ const Cursos = () => {
       setFormData({
         nombre: '',
         descripcion: '',
-        codigo: '',
         docenteId: '',
       });
     }
@@ -76,7 +72,7 @@ const Cursos = () => {
       handleCloseModal();
     } catch (error) {
       console.error('Error al guardar curso:', error);
-      alert(error.response?.data?.message || 'Error al guardar curso');
+      alert(error.response?.data?.error || error.response?.data?.message || 'Error al guardar curso');
     }
   };
 
@@ -86,10 +82,13 @@ const Cursos = () => {
         await eliminarCurso.mutateAsync(curso.id);
       } catch (error) {
         console.error('Error al eliminar curso:', error);
-        alert(error.response?.data?.message || 'Error al eliminar curso');
+        alert(error.response?.data?.error || error.response?.data?.message || 'Error al eliminar curso');
       }
     }
   };
+
+  // Filtrar solo cursos activos
+  const cursosActivos = cursos?.filter(c => c.esActivo !== false) || [];
 
   return (
     <div>
@@ -103,7 +102,7 @@ const Cursos = () => {
       <Card>
         <Table
           columns={columns}
-          data={cursos || []}
+          data={cursosActivos}
           loading={isLoading}
           onEdit={handleOpenModal}
           onDelete={handleDelete}
@@ -116,13 +115,6 @@ const Cursos = () => {
         title={editingCurso ? 'Editar Curso' : 'Nuevo Curso'}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            label="Código"
-            type="text"
-            value={formData.codigo}
-            onChange={(e) => setFormData({ ...formData, codigo: e.target.value })}
-            required
-          />
           <Input
             label="Nombre"
             type="text"
@@ -139,7 +131,6 @@ const Cursos = () => {
               onChange={(e) => setFormData({ ...formData, descripcion: e.target.value })}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows="3"
-              required
             />
           </div>
           <div>
@@ -155,7 +146,7 @@ const Cursos = () => {
               <option value="">Seleccione un docente</option>
               {docentes.map((docente) => (
                 <option key={docente.id} value={docente.id}>
-                  {docente.nombre} {docente.apellido}
+                  {docente.nombres} {docente.apellidos}
                 </option>
               ))}
             </select>
@@ -166,7 +157,7 @@ const Cursos = () => {
             </Button>
             <Button
               type="submit"
-              loading={crearCurso.isPending || actualizarCurso.isPending}
+              isLoading={crearCurso.isPending || actualizarCurso.isPending}
             >
               {editingCurso ? 'Actualizar' : 'Crear'}
             </Button>
